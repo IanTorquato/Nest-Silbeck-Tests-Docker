@@ -3,7 +3,7 @@ version: '3.4'
 services:
   postgres-test:
     container_name: postgres-test
-    image: postgres
+    image: postgres:13-alpine
     environment: 
       POSTGRES_PASSWORD: postgres
     volumes:

@@ -1,13 +1,13 @@
-const port = Number(process.env.TYPEORM_PORT);
+import { databaseConfig } from 'src/configs/database';
+
 // const portRedis = Number(process.env.REDIS_PORT);
 
-module.exports = {
-  type: 'postgres',
-  host: process.env.TYPEORM_HOST,
-  username: process.env.TYPEORM_USERNAME,
-  password: process.env.TYPEORM_PASSWORD,
-  database: process.env.TYPEORM_DATABASE,
-  port,
+export default {
+  ...databaseConfig,
+  migrations: ['dist/src/database/migrations/*.{ts,js}'],
+  cli: {
+    migrationsDir: 'src/database/migrations',
+  },
   // Não funcionou typeorm + redis
   // cache: {
   //   type: 'redis',
