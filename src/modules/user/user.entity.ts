@@ -7,7 +7,7 @@ import {
 
 import { UserRole } from './user-roles.interface';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn({ name: 'user_id' })
   id: number;

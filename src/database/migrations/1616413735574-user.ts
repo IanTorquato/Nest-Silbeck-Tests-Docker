@@ -38,6 +38,7 @@ export class user1616413735574 implements MigrationInterface {
             name: 'created_at',
             type: 'timestamp',
             isNullable: false,
+            default: 'now()',
           },
         ],
       }),

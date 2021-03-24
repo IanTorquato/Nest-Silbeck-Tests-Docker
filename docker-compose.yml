@@ -23,11 +23,11 @@ services:
   #   depends_on:
   #     - postgres-test
       
-  redis-test:
-    container_name: redis-test
-    image: redis:6-alpine
-    ports:
-      - "6379:6379"
+  # redis-test:
+  #   container_name: redis-test
+  #   image: redis:6-alpine
+  #   ports:
+  #     - "6379:6379"
       
   # redis_commander-test:
   #   container_name: redis_commander-test
