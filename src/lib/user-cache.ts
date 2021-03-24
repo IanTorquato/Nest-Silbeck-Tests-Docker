@@ -1,6 +1,6 @@
 import Redis, { Redis as RedisType } from 'ioredis';
 
-import { redisConfig } from 'src/configs/redis';
+import { redisConfig } from '../configs/redis';
 
 class UserCache {
   private redis: RedisType;

@@ -1,10 +1,21 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { EntityNotFoundError, getConnection, Repository } from 'typeorm';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import {
+  EntityNotFoundError,
+  // getConnection,
+  Repository,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './user.entity';
-import UserCache from 'src/lib/user-cache';
-import { UserDataCreate, UserDataFind } from './user.dto';
+// import UserCache from '../../lib/user-cache';
+import { FindUserDto } from './dto/find-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -15,7 +26,7 @@ export class UserService {
     // Empty
   }
 
-  async create(data: UserDataCreate): Promise<UserDataFind> {
+  async create(data: CreateUserDto): Promise<FindUserDto> {
     const { name, email, role, password } = data;
 
     const userExist = await this.userRepository.findOne({ email });
@@ -36,25 +47,29 @@ export class UserService {
     user.role = role;
     user.password = passwordEncrypted;
 
-    return await this.userRepository.save(user).then(async (newUser) => {
-      const { password, ...responseUser } = newUser;
+    const userCreated = await this.userRepository.save(user);
 
-      await getConnection().queryResultCache?.remove(['all']);
+    if (!userCreated) {
+      throw new InternalServerErrorException();
+    }
 
-      return responseUser;
-    });
+    const { password: userPassword, ...responseUser } = userCreated;
+
+    // await getConnection().queryResultCache?.remove(['all']);
+
+    return responseUser;
   }
 
   // Cache usando "ioredis" + Arquivo src/lib/user-cache.ts
-  async findAll(): Promise<UserDataFind[]> {
-    console.log(' ');
-    console.log('--> Buscando cache');
+  async findAll(): Promise<FindUserDto[]> {
+    // console.log(' ');
+    // console.log('--> Buscando cache');
 
-    const usersInCache = await UserCache.findUsers();
+    // const usersInCache = await UserCache.findUsers();
 
-    if (usersInCache) {
-      return usersInCache;
-    }
+    // if (usersInCache) {
+    //   return usersInCache;
+    // }
 
     const users = await this.userRepository.find({
       select: ['id', 'name', 'email', 'role', 'created_at'],
@@ -67,13 +82,13 @@ export class UserService {
       );
     }
 
-    console.log('--> Criando cache');
-    UserCache.createUser('all', users, 60 * 1);
+    // console.log('--> Criando cache');
+    // UserCache.createUser('all', users, 60 * 1);
 
     return users;
   }
 
-  async findOne(email: string): Promise<UserDataFind> {
+  async findOne(email: string): Promise<FindUserDto> {
     const user = await this.userRepository.findOneOrFail({
       select: ['id', 'name', 'email', 'role', 'created_at'],
       where: { email },
