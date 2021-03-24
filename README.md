@@ -3,6 +3,7 @@
 * Usando: Nest + TS + TypeORM + Docker + Docker Compose
 
 * Containers: Server Node + Postgres + PgAdmin + Redis + Redis Commander
+  *  PgAdmin e Redis Commander estão comentados no docker-compose
 
 ps-1: Infelizmente não tenho tempo para fazer um Readme bonito (Nem nos outros projetos do meu perfil) por conta do combo de Trabalho e Faculdade.
 
