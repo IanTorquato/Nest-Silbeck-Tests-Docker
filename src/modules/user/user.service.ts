@@ -53,6 +53,7 @@ export class UserService {
       throw new InternalServerErrorException();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: userPassword, ...responseUser } = userCreated;
 
     // await getConnection().queryResultCache?.remove(['all']);

@@ -136,10 +136,10 @@ describe('UserService', () => {
       );
 
       // Segunda forma de se tratar excessões - Menos controle sobre o erro - Aparece no console
-      expect(userService.findOne('user@notexist.com')).rejects.toBeInstanceOf(
-        EntityNotFoundError,
-      );
-      expect(mockUserRepository.findOneOrFail).toHaveBeenCalledTimes(1);
+      userService.findOne('user@notexist.com').catch((error) => {
+        expect(error).toBeInstanceOf(EntityNotFoundError);
+        expect(mockUserRepository.findOneOrFail).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });
