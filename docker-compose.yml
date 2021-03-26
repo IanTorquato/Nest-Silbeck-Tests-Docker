@@ -5,12 +5,12 @@ services:
     container_name: postgres-test
     image: postgres:13-alpine
     environment: 
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: "postgres"
     volumes:
         - ./init.sql:/docker-entrypoint-initdb.d/
     ports: 
       - "5432:5432"
-      - "8844:8844"
+      # - "8844:8844"
       
   # pgadmin-test:
   #   container_name: pgadmin-test
@@ -42,10 +42,9 @@ services:
   node-test:
     container_name: node-test
     build: .
-    command: yarn start:dev
+    command: "yarn start:container"
     volumes: 
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/home/node/app
     depends_on: 
       - postgres-test
     ports:
