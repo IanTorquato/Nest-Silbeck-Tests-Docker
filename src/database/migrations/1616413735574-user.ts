@@ -1,3 +1,4 @@
+import { UserRole } from 'src/modules/user/user-roles.interface';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class user1616413735574 implements MigrationInterface {
@@ -31,7 +32,7 @@ export class user1616413735574 implements MigrationInterface {
           {
             name: 'role',
             type: 'enum',
-            enum: ['admin', 'user'],
+            enum: [UserRole.ADMIN, UserRole.USER],
             isNullable: false,
           },
           {
