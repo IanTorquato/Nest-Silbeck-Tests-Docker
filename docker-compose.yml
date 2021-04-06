@@ -38,13 +38,14 @@ services:
   #   depends_on:
   #       - redis-test
   
-  node-test:
-    container_name: node-test
-    build: .
-    command: "yarn start:container"
-    volumes: 
-      - .:/home/node/app
-    depends_on: 
-      - postgres-test
-    ports:
-      - "3333:3333"
+  # node-test:
+  #   container_name: node-test
+  #   build: .
+  #   image: node-test-image
+  #   command: "yarn start:container"
+  #   volumes: 
+  #     - .:/home/node/app
+  #   depends_on: 
+  #     - postgres-test
+  #   ports:
+  #     - "3333:3333"
